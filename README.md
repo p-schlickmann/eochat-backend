@@ -9,6 +9,7 @@ The api is currently deployed at
 https://protected-cove-50889.herokuapp.com/
 
 ## Signup
+Creates a new user, and returns his token.
 
 ### Request
 
@@ -24,10 +25,11 @@ https://protected-cove-50889.herokuapp.com/
     Vary: Accept
 
     {
-        "username": "new user"
+    "token": "example4754bb904e2r2r"
     }
 
 ## Login
+Returns the token of the passed user.
 
 ### Request
 

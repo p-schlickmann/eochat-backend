@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         """
         password = validated_data.pop('password', None)
         user = super().update(instance, validated_data)
-
+        print(password)
         if password:
             user.set_password(password)
             user.save()

@@ -1,6 +1,7 @@
 import logging
 
 from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.decorators import renderer_classes, api_view
@@ -20,6 +21,20 @@ class CreateUserView(generics.CreateAPIView):
     Overrides 'perform_create' to set password hash correctly
     """
     serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        token = Token.objects.create(user=user)
+        return Response({'token': token.key}, status=201, headers=headers)
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.set_password(instance.password)
+        instance.save()
+        return instance
 
 
 class CreateTokenView(ObtainAuthToken):
