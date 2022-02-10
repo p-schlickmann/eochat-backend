@@ -14,7 +14,7 @@ from django.core.asgi import get_asgi_application
 # Fetch Django ASGI application early to ensure AppRegistry is populated
 # before importing consumers and AuthMiddlewareStack that may import ORM
 # models.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "eochat.settings.dev")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "eochat.settings.prod")
 django_asgi_app = get_asgi_application()
 
 # Import other Channels classes and consumers here.
