@@ -1,5 +1,7 @@
 import os
 
+import dj_database_url
+
 from eochat.settings.common import *
 
 
@@ -25,24 +27,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DATABASE_NAME'),
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': os.environ.get('DATABASE_URL'),  # env from heroku
-        'PORT': 5432,
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
 CHANNEL_LAYERS = {
     'default': {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [os.environ.get('REDIS_URL')]  # env from heroku
+            "hosts": [os.environ.get('REDIS_URL')]
         },
     }
 }
