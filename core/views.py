@@ -1,11 +1,16 @@
+import logging
+
 from rest_framework import generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.decorators import renderer_classes, api_view
 from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
+from core.models import Chat
 from core.serializers import UserSerializer, ChatSerializer
 
 
@@ -43,3 +48,12 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
 class CreateChatView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ChatSerializer
+
+
+@api_view(['GET'])
+def chat_exists(request, chat_code):
+    try:
+        Chat.objects.get(code=int(chat_code))
+        return Response({'exists': True})
+    except Exception:
+        return Response({'exists': False})

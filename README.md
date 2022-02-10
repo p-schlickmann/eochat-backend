@@ -3,11 +3,10 @@
 
 This is REST-API made with DjangoRestFramework, which is part of a university project, designed for the Web Development course (INE5646 Programação para Web).
 
-## Run locally
+## Deployment
 
-    python manage.py migrate
-    python manage.py test
-    python manage.py runserver
+The api is currently deployed at  
+https://protected-cove-50889.herokuapp.com/
 
 ## Signup
 
@@ -111,28 +110,26 @@ Note that the patch method allows you to edit your information partially, only u
         "created_at": "2021-12-08T17:54:32.949608-03:00"
     }
 
-## Join a chat
+## Check if a chat exists
 ### Request
 
-`POST /chats/<chat_code>/join`
+`GET /chats/<int:chat_code>/exists`
 
     {}
 
 ### Response
 
     HTTP 200 OK
-    Allow: POST, OPTIONS
+    Allow: GET, OPTIONS
     Content-Type: application/json
     Vary: Accept
     
     {
-        "joined": true,
-        "chat_name": "new chat",
-        "chat_code": 625977,
-        "members": [
-            "this",
-            "is-a",
-            "members-list",
-        ]
+        "exists": true
     }
+
+## Join a chat
+To join a chat, a websocket connection is required to
+`ws://protected-cove-50889.herokuapp.com/ws/chat/<int:chat_code>`
+
 
