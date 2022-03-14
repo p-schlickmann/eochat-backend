@@ -1,5 +1,7 @@
+import json
 import logging
 
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
@@ -72,3 +74,25 @@ def chat_exists(request, chat_code):
         return Response({'exists': True})
     except Exception:
         return Response({'exists': False})
+
+
+@api_view(['POST'])
+def change_chat_name(request, chat_code):
+    chat = get_object_or_404(Chat, code=int(chat_code))
+    data = json.loads(request.body)
+    try:
+        chat.name = data['name']
+        chat.save()
+        return Response({'name': data['name']}, status=status.HTTP_200_OK)
+    except:
+        return Response({'detail': 'Problem trying to edit chat.'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_chat(request, chat_code):
+    chat = get_object_or_404(Chat, code=int(chat_code))
+    try:
+        chat.delete()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+    except:
+        return Response({'detail': 'Problem trying to delete chat.'}, status=status.HTTP_400_BAD_REQUEST)

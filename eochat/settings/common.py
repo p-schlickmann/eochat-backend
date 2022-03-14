@@ -29,6 +29,12 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 CLIENT_URL = 'http://localhost:3000'
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://eochat-frontend.vercel.app',
+    'https://eochat-frontend-gkz0emsuc-p-schlickmann.vercel.app'
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,6 +52,7 @@ INSTALLED_APPS = [
 
     'core',
 ]
+
 
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
